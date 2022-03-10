@@ -49,7 +49,7 @@ public class Board {
     public Piece createPiece(PieceColor color, int x, int y) {
         Piece piece = new Piece(color, x, y);
 
-        piece.setOnMouseClicked(e -> {
+        piece.setOnMouseReleased(e -> {
             int newX = toBoard(piece.getLayoutX());
             int newY = toBoard(piece.getLayoutY());
 
@@ -71,6 +71,9 @@ public class Board {
                 case NORMAL:
                     piece.move(newX, newY);
                     board[x0][y0].setPiece(null);
+                    if (color == PieceColor.RED && newY == 7 || color == PieceColor.WHITE && newY == 0) {
+                        piece.king(piece.getColor());
+                    }
                     board[newX][newY].setPiece(piece);
                     break;
                 case KILL:
@@ -102,7 +105,6 @@ public class Board {
 
                 if (Math.abs(newX - x0) == 1 && newY - y0 == 1) {
                     return new MoveResult(MoveType.NORMAL);
-
                 } else if (Math.abs(newX - x0) == 2 && newY - y0 == 2) {
 
                     if (board[x1][y1].hasPiece() && board[x1][y1].getPiece().getColor() != piece.getColor()) {
@@ -121,6 +123,18 @@ public class Board {
                     }
                 }
             }
+
+            if (piece.isKinged()) {
+                if (Math.abs(newX - x0) < 8 && newY - y0 < 8 || Math.abs(newX - x0) > -8 && newY - y0 > -8) {
+
+                    if (board[x1][y1].hasPiece() && board[x1][y1].getPiece().getColor() != piece.getColor()) {
+                        return new MoveResult(MoveType.KILL, board[x1][y1].getPiece());
+                    } else {
+                        return new MoveResult(MoveType.NORMAL);
+                    }
+                }
+            }
+
             return new MoveResult(MoveType.NONE);
         }
 

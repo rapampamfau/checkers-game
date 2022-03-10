@@ -18,42 +18,16 @@ public class Piece extends StackPane {
 
         move(x, y);
 
-        if (isKinged()) {
-            Circle kingPiecePart1 = new Circle(TILE_SIZE * 0.45);
-            Circle kingPiecePart2 = new Circle(TILE_SIZE * 0.32);
-            Circle kingPiecePart3 = new Circle(TILE_SIZE * 0.17);
+        Circle piece = new Circle(TILE_SIZE * 0.45);
+        piece.setFill(type == PieceColor.RED ? Color.RED : Color.WHITE);
 
-            kingPiecePart1.setFill(type == PieceColor.RED ? Color.RED : Color.WHITE);
-            kingPiecePart1.setStroke(Color.BLACK);
-            kingPiecePart1.setStrokeWidth(TILE_SIZE * 0.03);
-            kingPiecePart1.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-            kingPiecePart1.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        piece.setStroke(Color.BLACK);
+        piece.setStrokeWidth(TILE_SIZE * 0.03);
 
-            kingPiecePart2.setFill(type == PieceColor.RED ? Color.RED : Color.WHITE);
-            kingPiecePart2.setStroke(Color.BLACK);
-            kingPiecePart2.setStrokeWidth(TILE_SIZE * 0.03);
-            kingPiecePart2.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-            kingPiecePart2.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        piece.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        piece.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
 
-            kingPiecePart3.setFill(type == PieceColor.RED ? Color.RED : Color.WHITE);
-            kingPiecePart3.setStroke(Color.BLACK);
-            kingPiecePart3.setStrokeWidth(TILE_SIZE * 0.03);
-            kingPiecePart3.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-            kingPiecePart3.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-
-            getChildren().addAll(kingPiecePart1, kingPiecePart2, kingPiecePart3);
-        } else {
-            Circle piece = new Circle(TILE_SIZE * 0.45);
-            piece.setFill(type == PieceColor.RED ? Color.RED : Color.WHITE);
-
-            piece.setStroke(Color.BLACK);
-            piece.setStrokeWidth(TILE_SIZE * 0.03);
-
-            piece.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-            piece.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
-
-            getChildren().addAll(piece);
-        }
+        getChildren().addAll(piece);
 
         setOnMousePressed(e -> {
             mouseX = e.getSceneX();
@@ -79,7 +53,31 @@ public class Piece extends StackPane {
         return isKing;
     }
 
-    public void king() {
+    public void king (PieceColor color) {
+        Circle kingPiecePart1 = new Circle(TILE_SIZE * 0.45);
+        Circle kingPiecePart2 = new Circle(TILE_SIZE * 0.32);
+        Circle kingPiecePart3 = new Circle(TILE_SIZE * 0.17);
+
+        kingPiecePart1.setFill(color == PieceColor.RED ? Color.RED : Color.WHITE);
+        kingPiecePart1.setStroke(Color.BLACK);
+        kingPiecePart1.setStrokeWidth(TILE_SIZE * 0.03);
+        kingPiecePart1.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        kingPiecePart1.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+
+        kingPiecePart2.setFill(color == PieceColor.RED ? Color.RED : Color.WHITE);
+        kingPiecePart2.setStroke(Color.BLACK);
+        kingPiecePart2.setStrokeWidth(TILE_SIZE * 0.03);
+        kingPiecePart2.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        kingPiecePart2.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+
+        kingPiecePart3.setFill(color == PieceColor.RED ? Color.RED : Color.WHITE);
+        kingPiecePart3.setStroke(Color.BLACK);
+        kingPiecePart3.setStrokeWidth(TILE_SIZE * 0.03);
+        kingPiecePart3.setTranslateX((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+        kingPiecePart3.setTranslateY((TILE_SIZE - TILE_SIZE * 0.45 * 2) / 2);
+
+        getChildren().addAll(kingPiecePart1, kingPiecePart2, kingPiecePart3);
+
         isKing = true;
     }
 
