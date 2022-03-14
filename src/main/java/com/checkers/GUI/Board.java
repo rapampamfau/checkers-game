@@ -79,6 +79,9 @@ public class Board {
                 case KILL:
                     piece.move(newX, newY);
                     board[x0][y0].setPiece(null);
+                    if (color == PieceColor.RED && newY == 7 || color == PieceColor.WHITE && newY == 0)  {
+                        piece.king(piece.getColor());
+                    }
                     board[newX][newY].setPiece(piece);
 
                     Piece otherPiece = result.getPiece();
@@ -95,9 +98,11 @@ public class Board {
                 return new MoveResult(MoveType.NONE);
             }
 
+            //old coordinates
             int x0 = toBoard(piece.getOldX());
             int y0 = toBoard(piece.getOldY());
 
+            //tile between old and new coordinates
             int x1 = x0 + (newX - x0) / 2;
             int y1 = y0 + (newY - y0) / 2;
 
@@ -125,16 +130,31 @@ public class Board {
             }
 
             if (piece.isKinged()) {
-                if (Math.abs(newX - x0) < 8 && newY - y0 < 8 || Math.abs(newX - x0) > -8 && newY - y0 > -8) {
+                if (Math.abs(newX - x0) == Math.abs(newY - y0)) {
 
-                    if (board[x1][y1].hasPiece() && board[x1][y1].getPiece().getColor() != piece.getColor()) {
-                        return new MoveResult(MoveType.KILL, board[x1][y1].getPiece());
-                    } else {
-                        return new MoveResult(MoveType.NORMAL);
+                    if (x0 < newX && y0 < newY) {
+                        if (board[newX - 1][newY - 1].hasPiece() && board[newX - 1][newY - 1].getPiece().getColor() != piece.getColor()) {
+                            return new MoveResult(MoveType.KILL, board[newX - 1][newY - 1].getPiece());
+                        }
+
+                    } else if (x0 < newX && y0 > newY) {
+                        if (board[newX - 1][newY + 1].hasPiece() && board[newX - 1][newY + 1].getPiece().getColor() != piece.getColor()) {
+                            return new MoveResult(MoveType.KILL, board[newX - 1][newY + 1].getPiece());
+                        }
+
+                    } else if (x0 > newX && y0 > newY) {
+                        if (board[newX + 1][newY + 1].hasPiece() && board[newX + 1][newY + 1].getPiece().getColor() != piece.getColor()) {
+                            return new MoveResult(MoveType.KILL, board[newX + 1][newY + 1].getPiece());
+                        }
+
+                    } else if (x0 > newX && y0 < newY) {
+                        if (board[newX + 1][newY - 1].hasPiece() && board[newX + 1][newY - 1].getPiece().getColor() != piece.getColor()) {
+                            return new MoveResult(MoveType.KILL, board[newX + 1][newY - 1].getPiece());
+                        }
                     }
+                    return new MoveResult(MoveType.NORMAL);
                 }
             }
-
             return new MoveResult(MoveType.NONE);
         }
 
